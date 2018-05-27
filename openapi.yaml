@@ -1,0 +1,444 @@
+# [START swagger]
+swagger: "2.0"
+info:
+  description: "A simple API example."
+  title: "Endpoints Example"
+  version: "1.0.0"
+host: "localhost:3000"
+# [END swagger]
+consumes:
+- "application/json"
+produces:
+- "application/json"
+schemes:
+- "http"
+paths:
+  /clients:
+    get:
+      tags:
+      - "Client"
+      summary: "Returns all clients"
+      description: "Returns all clients records and providers records"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          examples:
+            application/json: |-
+              {
+                "message": "Ok",
+                "clients": [
+                  {
+                    "providers": [
+                      "5aff5529412b312969b77873",
+                      "5aff46b53e51b020ca51f5f3"
+                    ],
+                    "_id": "5af8a5ed7472281493bcdf43",
+                    "name": "Client 1",
+                    "email": "Client-1@example.com",
+                    "phone": "+79160188118",
+                    "__v": 0
+                  },
+                  {
+                    "providers": [
+                      "5aff46b53e51b020ca51f5f3",
+                      "5aff5529412b312969b77873"
+                    ],
+                    "_id": "5af8c8b90fed8938f4a43096",
+                    "name": "Client 2",
+                    "email": "Client-2@example.com",
+                    "phone": "+79160188118",
+                    "__v": 0
+                  }
+                ],
+                "providers": [
+                  {
+                    "_id": "5aff46b53e51b020ca51f5f3",
+                    "name": "Provider 1",
+                    "__v": 0
+                  },
+                  {
+                    "_id": "5aff5529412b312969b77873",
+                    "name": "Provider 2",
+                    "__v": 0
+                  },
+                  {
+                    "_id": "5b0022e2e9d22e7b1a80149f",
+                    "name": "Provider 3",
+                    "__v": 0
+                  }
+                ]
+              }
+    post:
+      tags:
+      - "Client"
+      summary: "Creates a new client"
+      description: "Creates a new client record"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Client data that needs to be added to the data base"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        200:
+          description: "successful operation"
+          examples:
+            application/json: |-
+              {
+                "message": "Client was created",
+                "response": {
+                  "providers": [
+                    "5b0059f62453473c18a0cfa8"
+                  ],
+                  "_id": "5b0059f62453473c18a0cfa9",
+                  "name": "Client 17",
+                  "email": "Client-17@example.com",
+                  "phone": "+79160188118",
+                  "__v": 0
+                }
+              }
+
+  /clients/{id}:
+    get:
+      tags:
+      - "Client"
+      summary: "Returns client"
+      description: "Returns specific client record"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the client whose record must be returned (example: \"5af8a5ed7472281493bcdf43\")"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          examples:
+            application/json: |-
+              {
+                "message": "Record was found",
+                "clients": [
+                  {
+                    "providers": [
+                      "5aff5529412b312969b77873",
+                      "5aff46b53e51b020ca51f5f3"
+                    ],
+                    "_id": "5af8a5ed7472281493bcdf43",
+                    "name": "Client 1",
+                    "email": "Client-1@example.com",
+                    "phone": "+79160188118",
+                    "__v": 0
+                  }
+                ]
+              }
+        400:
+          description: "Bad Request"
+          examples:
+            application/json: |-
+              {
+                "message": "Error",
+                "response": {
+                  "message": "Cast to ObjectId failed for value \"5aff5529412b312969b7787\" at path \"_id\" for model \"clients\"",
+                  "name": "CastError",
+                  "stringValue": "\"5aff5529412b312969b7787\"",
+                  "kind": "ObjectId",
+                  "value": "5aff5529412b312969b7787",
+                  "path": "_id"
+                }
+              }
+        404:
+          description: "Not found"
+          examples:
+            application/json: |-
+              {
+                "message": "Record wasn't found"
+              }
+    put:
+      tags:
+      - "Client"
+      summary: "Updates a client"
+      description: "Updates specific client record"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the client whose record must be updated (example: \"5af8a5ed7472281493bcdf43\")"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Client data that needs to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/ClientForUpdate"
+      responses:
+        200:
+          description: "successful operation"
+          examples:
+            application/json: |-
+              {
+                "message": "Record was updated",
+                "response": {
+                  "providers": [
+                    "5aff5529412b312969b77873",
+                    "5aff46b53e51b020ca51f5f3"
+                  ],
+                  "_id": "5af8a5ed7472281493bcdf43",
+                  "name": "Client 1985",
+                  "email": "Client-1985@example.com",
+                  "phone": "+79160188118",
+                  "__v": 0
+                }
+              }
+        400:
+          description: "Bad Request"
+          examples:
+            application/json: |-
+              {
+                "message": "Error",
+                "response": {
+                  "message": "Cast to ObjectId failed for value \"5aff5529412b312969b7787\" at path \"_id\" for model \"clients\"",
+                  "name": "CastError",
+                  "stringValue": "\"5aff5529412b312969b7787\"",
+                  "kind": "ObjectId",
+                  "value": "5aff5529412b312969b7787",
+                  "path": "_id"
+                }
+              }
+        404:
+          description: "Not found"
+          examples:
+            application/json: |-
+              {
+                "message": "Record wasn't found"
+              }
+    delete:
+      tags:
+      - "Client"
+      summary: "Deletes client"
+      description: "Deletes client record"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the client whose record must be deleted (example: \"5af8a5ed7472281493bcdf43\")"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          examples:
+            application/json: |-
+              {
+                "message": "Record was deleted",
+                "response": {
+                  "providers": [
+                    "5aff5529412b312969b77873"
+                  ],
+                  "_id": "5af8a5ed7472281493bcdf43",
+                  "name": "Client 17",
+                  "email": "Client-17@example.com",
+                  "phone": "+79160188118",
+                  "__v": 0
+                }
+              }
+        400:
+          description: "Bad Request"
+          examples:
+            application/json: |-
+              {
+                "message": "Error",
+                "response": {
+                  "message": "Cast to ObjectId failed for value \"34\" at path \"_id\" for model \"clients\"",
+                  "name": "CastError",
+                  "stringValue": "\"34\"",
+                  "kind": "ObjectId",
+                  "value": "34",
+                  "path": "_id"
+                }
+              }
+        404:
+          description: "Not found"
+          examples:
+            application/json: |-
+              {
+                "message": "Record wasn't found"
+              }
+
+  /providers:
+    post:
+      tags:
+      - "Provider"
+      summary: "Creates a new provider"
+      description: "Creates a new provider record"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Provider data that needs to be added to the data base"
+        required: true
+        schema:
+          $ref: "#/definitions/Provider"
+      responses:
+        200:
+          description: "successful operation"
+          examples:
+            application/json: |-
+              {
+                "message": "Provider was created",
+                "response": {
+                  "_id": "5b007eacae81885ef464b44c",
+                  "name": "Provider 017",
+                  "__v": 0
+                }
+              }
+
+  /providers/{id}:
+    put:
+      tags:
+      - "Provider"
+      summary: "Updates a provider"
+      description: "Updates specific provider record"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the provider whose record must be updated (example: \"5af8a5ed7472281493bcdf43\")"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Provider data that needs to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Provider"
+      responses:
+        200:
+          description: "successful operation"
+          examples:
+            application/json: |-
+              {
+                "message": "Record was updated",
+                "response": {
+                  "_id": "5aff46b53e51b020ca51f5f3",
+                  "name": "lalala 17999",
+                  "__v": 0
+                }
+              }
+        400:
+          description: "Bad Request"
+          examples:
+            application/json: |-
+              {
+                "message": "Error",
+                "response": {
+                  "message": "Cast to ObjectId failed for value \"5af8a5ed7472281493bcdf\" at path \"_id\" for model \"providers\"",
+                  "name": "CastError",
+                  "stringValue": "\"5af8a5ed7472281493bcdf\"",
+                  "kind": "ObjectId",
+                  "value": "5af8a5ed7472281493bcdf",
+                  "path": "_id"
+                }
+              }
+        404:
+          description: "Not found"
+          examples:
+            application/json: |-
+              {
+                "message": "Record wasn't found"
+              }
+    delete:
+      tags:
+      - "Provider"
+      summary: "Deletes provider"
+      description: "Deletes provider record"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the provider whose record must be deleted (example: \"5af8a5ed7472281493bcdf43\")"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          examples:
+            application/json: |-
+              {
+                "message": "Record was deleted",
+                "response": {
+                  "_id": "5aff5529412b312969b77873",
+                  "name": "lalala 1885",
+                  "__v": 0
+                }
+              }
+        400:
+          description: "Bad Request"
+          examples:
+            application/json: |-
+              {
+                "message": "Error",
+                "response": {}
+              }
+        404:
+          description: "Not found"
+          examples:
+            application/json: |-
+              {
+                "message": "Record wasn't found"
+              }
+
+
+definitions:
+  Client:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Client 17"
+      email:
+        type: "string"
+        example: "Client-17@example.com"
+      phone:
+        type: "string"
+        example: "+79160188118"
+      providers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Provider"
+  Provider:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Provider 007"
+
+  ClientForUpdate:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Client 17"
+      email:
+        type: "string"
+        example: "Client-17@example.com"
+      phone:
+        type: "string"
+        example: "+79160188118"
+      providers:
+        type: "array"
+        items:
+          type: "string"
+          example: "5aff5529412b312969b77873"
