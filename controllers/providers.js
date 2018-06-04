@@ -7,6 +7,17 @@ exports.create = (req, res) => {
     .save()
     .then((response) => {
       res.json({ message: 'Provider was created', response: response });
+    }).catch((error) => {
+      if (error.errors.name) {
+        res.json(
+          {
+            message: 'validation error',
+            response: error.errors.name.message
+          }
+        );
+      } else {
+        res.status(400).json({ message: 'Error', response: error });
+      }
     });
 };
 
@@ -35,16 +46,26 @@ exports.update = (req, res) => {
   var provider_data = {
     name: req.body.name
   };
-  Provider.findOneAndUpdate({ _id: req.params.id }, provider_data)
-    .then((response) => {
-      if (response) {
-        res.json({ message: 'Record was updated', response: response });
-      } else {
-        res.status(404).json({ message: "Record wasn't found" });
-      }
-    }).catch((error) => {
-      if (error) {
-        res.status(400).json({ message: 'Error', response: error });
-      }
-    });
+  Provider.findById(req.params.id).then((response) => {
+    return Object.assign(response, provider_data);
+  }).then((provider) => {
+    return provider.save();
+  }).then((response) => {
+    if (response) {
+      res.json({ message: 'Record was updated', response: response });
+    } else {
+      res.status(404).json({ message: "Record wasn't found" });
+    }
+  }).catch((error) => {
+    if (error.errors.name) {
+      res.json(
+        {
+          message: 'validation error',
+          response: error.errors.name.message
+        }
+      );
+    } else {
+      res.status(400).json({ message: 'Error', response: error });
+    }
+  });
 };

@@ -4,20 +4,31 @@
   "description": "test task",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-assets": "webpack --config ./webpack.config.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-loader": "^7.1.4",
+    "bootstrap": "^4.1.1",
     "cookie-parser": "^1.4.3",
+    "css-loader": "^0.28.11",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "jquery": "^3.3.1",
     "mongoose": "^5.0.17",
+    "popper.js": "^1.14.3",
+    "prettier": "^1.13.2",
     "pug": "^2.0.3",
     "swagger": "^0.7.5",
     "swagger-tools": "^0.10.3",
     "swagger-ui": "^3.15.0",
-    "vue": "^2.5.16",
+    "vue-loader": "^15.2.1",
+    "vue-style-loader": "^4.1.0",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.9.1",
+    "webpack-cli": "^2.1.4",
     "yamljs": "^0.3.0"
   }
 }

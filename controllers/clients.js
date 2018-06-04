@@ -43,8 +43,18 @@ exports.create = (req, res) => {
       .save()
       .then((response) => {
         res.json({ message: 'Client was created', response: response });
+      }).catch((error) => {
+        if (error.errors.email) {
+          res.json(
+            {
+              message: 'validation error',
+              response: error.errors.email.message
+            }
+          );
+        } else {
+          res.status(400).json({ message: 'Error', response: error });
+        }
       });
-
   });
 };
 
@@ -55,19 +65,28 @@ exports.update = (req, res) => {
     phone: req.body.phone,
     providers: req.body.providers
   };
-  Client.findOneAndUpdate({ _id: req.params.id }, client_data, { new: true })
-    .then((response) => {
-      if (response) {
-        res.json({ message: 'Record was updated', response: response });
-      } else {
-        res.status(404).json({ message: "Record wasn't found" });
-      }
-    })
-    .catch((error) => {
-      if (error) {
-        res.status(400).json({ message: 'Error', response: error });
-      }
-    });
+  Client.findById(req.params.id).then((response) => {
+    return Object.assign(response, client_data);
+  }).then((client) => {
+    return client.save();
+  }).then((response) => {
+    if (response) {
+      res.json({ message: 'Record was updated', response: response });
+    } else {
+      res.status(404).json({ message: "Record wasn't found" });
+    }
+  }).catch((error) => {
+    if (error.errors.email) {
+      res.json(
+        {
+          message: 'validation error',
+          response: error.errors.email.message
+        }
+      );
+    } else {
+      res.status(400).json({ message: 'Error', response: error });
+    }
+  });
 };
 
 exports.delete = (req, res) => {

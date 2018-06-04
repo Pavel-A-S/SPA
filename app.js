@@ -25,10 +25,10 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
 });
 
 app.set('view engine', 'pug');
-app.set('views', './views');
+app.set('views', './vue/views');
 
 app.use('/css', express.static('./public/css'));
-app.use('/icons', express.static('./public/icons/svg'));
+app.use('/icons', express.static('./public/icons'));
 app.use('/js', express.static('./public/js'));
 app.use('/libs', express.static('./public/libs'));
 
